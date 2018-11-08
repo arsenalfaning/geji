@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.mask {
+    background-color: rgba(0,0,0,0.8);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.dialog {
+    width: 3.3rem;
+    position: fixed;
+    top: 10%;
+    left: 0.225rem;
+    text-align: center;
+}
+.dialog-close {
+    width: 0.44rem;
+    position: absolute;
+    right: 0.12rem;
+    top: 0.12rem;
+}
+.show {
+    display: block !important;
+}

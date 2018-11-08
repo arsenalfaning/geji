@@ -18,13 +18,10 @@
                 }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
                 a = t.createElement("div");
                 a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o) } }(window, document)
-
     </script>
+    <script type="application/javascript" src="js/main.js"></script>
+    <link href="css/main.css" type="text/css" media="screen" rel="stylesheet">
     <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
         html {
             height: 100%;
         }
@@ -58,7 +55,7 @@
             justify-content: space-between;
         }
         .shop-category-button {
-            width: 1.78rem;
+            width: 1.77rem;
             height: 0.48rem;
             cursor: pointer;
             font-size: 0.22rem;
@@ -249,6 +246,7 @@
             position: relative;
             margin: 0.11rem auto 0 auto;
             border-radius: 0.06rem;
+            opacity: 0;
             /*background-color: rgb(224, 72,47);*/
             /*border: 0.03rem solid rgb(183, 57,36);*/
         }
@@ -301,109 +299,7 @@
             margin-top: 0.45rem;
         }
     </style>
-    <style type="text/css">
-        .mask {
-            background-color: rgba(0,0,0,0.8);
-            overflow: hidden;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-        .dialog {
-            width: 3.3rem;
-            position: fixed;
-            top: 10%;
-            left: 0.225rem;
-            text-align: center;
-        }
-        .dialog-close {
-            width: 0.44rem;
-            position: absolute;
-            right: 0.12rem;
-            top: 0.12rem;
-        }
-        .show {
-            display: block !important;
-        }
-    </style>
     <script type="application/javascript">
-        function get(url, header, callback) {
-            var xhr =  new XMLHttpRequest();
-            xhr.onreadystatechange = function (ev) {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        callback(JSON.parse(xhr.responseText))
-                    } else {
-                        alert("网络错误")
-                    }
-                }
-            }
-            xhr.open("GET", url, true);
-            if (header) {
-                for (var prop in header) {
-                    xhr.setRequestHeader(prop, header[prop]);
-                }
-            }
-            xhr.send(null);
-        }
-        function post(url, header, callback, body ) {
-            var xhr =  new XMLHttpRequest();
-            xhr.onreadystatechange = function (ev) {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        callback(JSON.parse(xhr.responseText))
-                    } else {
-                        alert("网络错误")
-                    }
-                }
-            }
-            xhr.open("POST", url, true);
-            if (header) {
-                for (var prop in header) {
-                    xhr.setRequestHeader(prop, header[prop]);
-                }
-            }
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify(body ? body : ""));
-        }
-        function maxZIndex() {
-            var array = document.querySelectorAll("*");
-            var zIndex = 0;
-            array.forEach(function (value) {
-                var z = window.getComputedStyle(value, null).zIndex;
-                if (z != "auto" && z > zIndex) {
-                    zIndex = z;
-                }
-            })
-            return zIndex;
-        }
-        function dialog(element) {
-            var zIndex = maxZIndex();
-            var time = new Date().getTime();
-            var maskDiv = document.createElement("mask");
-            maskDiv.classList.add("mask");
-            maskDiv.id = time + "mask"
-            maskDiv.style.zIndex = zIndex + 1;
-            document.body.appendChild(maskDiv);
-            var outDiv = document.createElement("div");
-            outDiv.classList.add("dialog");
-            outDiv.id = time + "div";
-            outDiv.style.zIndex = zIndex + 2;
-            var closeImg = document.createElement("img");
-            closeImg.classList.add("dialog-close");
-            closeImg.src = "img/dialog_close.png";
-            closeImg.style.zIndex = zIndex + 3;
-            outDiv.appendChild(closeImg);
-            outDiv.appendChild(element);
-            document.body.appendChild(outDiv);
-            closeImg.onclick = function () {
-                document.body.removeChild(maskDiv);
-                document.body.removeChild(outDiv);
-            }
-            return time;
-        }
         function changeItem(e) {
             var className = "shop-item-list-active";
             var ee = document.getElementsByClassName("shop-item-list-div");
@@ -429,82 +325,25 @@
             div.classList.add("dialog-div");
             dialog(div);
         }
-        function bind(string, data) {
-            var props0 = string.match(/{{\w+}}/g);
-            var props = [];
-            props0.map(function (value) {
-                props.push(value.substring(2, value.length - 2))
-            })
-            var h = string;
-            props0.map(function (prop0, index) {
-                var v = data[props[index]] == undefined ? "" : data[props[index]];
-                do {
-                    h = h.replace(prop0, v);
-                } while (h.match(prop0));
-            })
-            return h;
-        }
         function loadData() {
-            var data = [
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "青豆",
-                    "desc": "青豆属于豆科大豆属一年生攀缘草本植物。按其子叶的颜色，又可分为青皮青仁大豆和绿皮黄仁大豆两种。是中国重要粮食作物之一，已有五千年栽培历史。",
-                    "price": 100,
-                    "id": "5be0f0b0e3135a13286a8241"
-                },
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "黄豆",
-                    "desc": "好好吃的黄豆",
-                    "price": 101,
-                    "id": "5be0f2bee3135a13bf5a333f"
-                },
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "绿豆4",
-                    "desc": "好好吃的绿豆",
-                    "price": 102,
-                    "id": "5be0f2e2e3135a13c77fb193"
-                },
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "绿豆3",
-                    "desc": "好好吃的绿豆",
-                    "price": 104,
-                    "id": "5be0f2e2e3135a13c77fb194"
-                },
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "绿豆2",
-                    "desc": "好好吃的绿豆",
-                    "price": 106,
-                    "id": "5be0f2e2e3135a13c77fb195"
-                },
-                {
-                    "url": "img/shop_feed.png",
-                    "name": "绿豆1",
-                    "desc": "好好吃的绿豆",
-                    "price": 100,
-                    "id": "5be0f2e2e3135a13c77fb196"
+            get("http://10.1.1.68:8080/feed/getAll", function (data) {
+                window.data = data;
+                window.activeId = data[0] ? data[0].id : undefined;
+                window.showIndex = 0;
+                var html = document.getElementById("item-template").innerHTML;
+                var t = "";
+                data.map(function (item) {
+                    t += bind(html, item);
+                })
+                var items = document.getElementById("items");
+                items.innerHTML = t;
+                for (var i = 0; i < 4; i ++) {
+                    if ( items.children.item(i) ) {
+                        items.children.item(i).classList.add("show");
+                    }
                 }
-            ];
-            window.data = data;
-            window.activeId = data[0] ? data[0].id : undefined;
-            window.showIndex = 0;
-            var html = document.getElementById("item-template").innerHTML;
-            var t = "";
-            data.map(function (item) {
-                t += bind(html, item);
+                changeItem(items.children.item(0));
             })
-            var items = document.getElementById("items");
-            items.innerHTML = t;
-            for (var i = 0; i < 4; i ++) {
-                if ( items.children.item(i) ) {
-                    items.children.item(i).classList.add("show");
-                }
-            }
-            changeItem(items.children.item(0));
         }
         function prevItem() {
             if (window.showIndex > 0) {
@@ -548,30 +387,52 @@
             var div = document.createElement("div");
             div.innerHTML = document.getElementById("buy-fail-not-enough-template").innerHTML;
             div.classList.add("dialog-charge-div");
-            dialog(div);
+            dialog(div, closeAllDialog);
         }
         function showSuccessDialog() {
             var div = document.createElement("div");
             div.innerHTML = document.getElementById("buy-success-template").innerHTML;
-            dialog(div);
+            dialog(div, closeAllDialog);
+        }
+        function buyItem() {
+            /**
+             * 1.禁用掉购买的按钮
+             * 2.发送购买网络请求
+             * 3.购买成功，则显示结果，并关闭所有弹窗
+             * 4.购买失败，显示结果，并关闭所有弹窗
+             */
+            var button = document.getElementById("orderButton");
+            button.setAttribute("disabled", "true");
+            post("http://10.1.1.68:8080/feed/buy", {
+                feedId: button.getAttribute("data-id"),
+                amount: document.getElementById("orderAmount").value,
+                accountID: currentAccount()
+            }, function () {
+                showSuccessDialog();
+            }, function (err) {
+                if (err.code == "no.money") {
+                    showChargeDialog();
+                } else {
+                    alert(JSON.stringify(err.errors))
+                }
+            })
         }
     </script>
     <script id="item-template" type="application/template">
         <div class="shop-item-list-div" onclick="changeItem(this)" data-id="{{id}}"><img src="{{url}}"><div class="shop-item-list-name">{{name}}</div></div>
     </script>
     <script id="item-detail-template" type="application/template">
-        <div class="shop-item-img-div"><img class="shop-item-img" src="img/shop_feed.png"></div>
+        <div class="shop-item-img-div"><img class="shop-item-img" src="{{url}}"></div>
         <div class="shop-item-name">{{name}}</div>
         <div class="shop-item-desc">{{desc}}</div>
     </script>
     <script id="_dialog-template" type="application/template">
-        <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="img/shop_feed.png"></div>
+        <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="{{url}}"></div>
         <div class="shop-item-buy-dialog-name">{{name}}</div>
         <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_button_buy_coin.png"></div>
-        <div class="shop-item-buy-dialog-amount"><span>数量：</span><input type="number" value="1" class="shop-item-buy-dialog-amount-input" oninput="onlyDigital(event)"><span>袋</span></div>
-        <div class="shop-item-buy-dialog-button">
-            <!--<img class="shop-item-buy-dialog-button-img" src="img/dialog_buy.png">-->
-        </div>
+        <div class="shop-item-buy-dialog-amount"><span>数量：</span><input type="number" id="orderAmount" value="1" class="shop-item-buy-dialog-amount-input" oninput="onlyDigital(event)"><span>袋</span></div>
+        <button class="shop-item-buy-dialog-button" id="orderButton" onclick="buyItem()" data-id="{{id}}">
+        </button>
     </script>
     <script id="buy-fail-not-enough-template" type="application/template">
         <div class="dialog-fail-desc">余额不足，请充值！</div>
