@@ -326,7 +326,7 @@
             dialog(div);
         }
         function loadData() {
-            get("http://10.1.1.68:8080/feed/getAll", function (data) {
+            get("/feed/getAll", function (data) {
                 window.data = data;
                 window.activeId = data[0] ? data[0].id : undefined;
                 window.showIndex = 0;
@@ -403,7 +403,7 @@
              */
             var button = document.getElementById("orderButton");
             button.setAttribute("disabled", "true");
-            post("http://10.1.1.68:8080/feed/buy", {
+            post("/feed/buy", {
                 feedId: button.getAttribute("data-id"),
                 amount: document.getElementById("orderAmount").value,
                 accountID: currentAccount()

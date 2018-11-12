@@ -116,5 +116,5 @@ function bind(string, data) {
     return h;
 }
 function currentAccount() {
-    return "5be2bea0e3135a3eb748b82c"
+    return location.search.substring(1);
 }
