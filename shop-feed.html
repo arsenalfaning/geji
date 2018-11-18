@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>饲料-商店</title>
+    <script type="application/javascript">
+        ! function(e, t) {
+            var n = t.documentElement,
+                d = e.devicePixelRatio || 1;
+            function i() {
+                var e = n.clientWidth / 3.75;
+                n.style.fontSize = e.toFixed(0) + "px"
+            }
+            if ( function e() {
+                t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e)
+            }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
+                a = t.createElement("div");
+                a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o) } }(window, document)
+    </script>
+    <link href="css/main.css" type="text/css" media="screen" rel="stylesheet">
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            background-image: url("img/shop_bg.png");
+            background-size: 100% auto;
+            height: 100%;
+            min-height: 6.6rem;
+            width: 100%;
+            color: #fff;
+            font-family: 黑体;
+        }
+        .shop-name-div {
+            background-image: url("img/shop_bg_1.png");
+            background-size: 100% 100%;
+            height: 0.6rem;
+        }
+        .shop-name {
+            width: 0.75rem;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            top: 0.15rem;
+        }
+        .shop-return {
+            width: 0.45rem;
+            position: absolute;
+            right: 0.03rem;
+            top: 0.03rem;
+        }
+        .shop-center {
+            width: 3.56rem;
+            margin: 0.12rem auto 0 auto;
+        }
+        .shop-box {
+            display: flex;
+            justify-content: space-between;
+        }
+        .shop-category-button {
+            width: 1.77rem;
+            height: 0.48rem;
+            cursor: pointer;
+            font-size: 0.22rem;
+            line-height: 0.44rem;
+            text-align: center;
+            background-size: 100% 100%;
+            letter-spacing: 0.02rem;
+        }
+        .shop-feed-button {
+            background-image: url("img/shop_button_red.png");
+        }
+        .shop-theme-button {
+            background-image: url("img/shop_button_green.png");
+        }
+        .shop-item {
+            background-image: url("img/shop_bg_2.png");
+            background-size: 100% 100%;
+            height: 2.82rem;
+        }
+        .shop-item-img-div {
+            height: 1.1rem;
+            position: relative;
+            top: 0.26rem;
+        }
+        .shop-item-img {
+            height: 1.1rem;
+            display: block;
+            margin: 0 auto;
+        }
+        .shop-item-name {
+            position: relative;
+            top: 0.33rem;
+            height: 0.33rem;
+            line-height: 0.33rem;
+            font-size: 0.3rem;
+            font-weight: bolder;
+            text-align: center;
+            -webkit-text-stroke: 0.012rem rgb(98, 66, 43);
+            letter-spacing: 0.02rem;
+        }
+        .shop-item-desc {
+            font-size: 0.12rem;
+            position: relative;
+            top: 0.33rem;
+            line-height: 0.22rem;
+            padding: 0.1rem 0.18rem;
+            letter-spacing: 0.005rem;
+            text-align: justify;
+            color: #4e4e4e;
+        }
+        .shop-buy-button {
+            width: 2rem;
+            height: 0.96rem;
+            margin: 0.3rem auto;
+            background-image: url("img/shop_buy_button_2.png");
+            background-size: 100% 100%;
+        }
+        .shop-buy-button-inner {
+            width: 96%;
+            height: 92%;
+            background-image: url("img/shop_buy_button_1.png");
+            background-size: 100% 100%;
+            margin: auto;
+            position: relative;
+            top: 4%;
+        }
+        .shop-buy-text {
+            width: 0.7rem;
+            display: block;
+            margin: 0 auto 0.1rem auto;
+            position: relative;
+            top: 0.12rem;
+        }
+        .shop_button_buy_coin {
+            width: 0.3rem;
+            float: left;
+            position: relative;
+            left: 0.3rem;
+            bottom: 0;
+        }
+        .shop_button_buy_price {
+            display: inline-block;
+            width: 0.8rem;
+            text-align: right;
+            font-size: 0.19rem;
+            position: relative;
+            float: right;
+            right: 0.28rem;
+            bottom: -0.05rem;
+        }
+        .shop-item-list {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.05rem;
+        }
+        .shop-item-list img {
+            height: 0.54rem;
+            position: relative;
+            top: 0.06rem
+        }
+        .shop-item-list-div {
+            width: 0.66rem;
+            height: 0.66rem;
+            background-image: url("img/shop_item_list_unselected.png");
+            background-size: 100% 100%;
+            text-align: center;
+            position: relative;
+            display: none;
+        }
+        .shop-item-list-div.shop-item-list-active {
+            background-image: url("img/shop_item_list_selected.png");
+        }
+        .shop-item-list-name {
+            position: absolute;
+            bottom: -0.3rem;
+            font-size: 0.11rem;
+            text-align: center;
+            width: 0.66rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .shop-item-buy-dialog-img-div {
+            position: relative;
+            height: 0.84rem;
+            margin-top: 0.26rem;
+        }
+        .shop-item-buy-dialog-img {
+            height: 0.84rem;
+        }
+        .shop-item-buy-dialog-name {
+            position: relative;
+            font-size: 0.22rem;
+            height: 0.22rem;
+            line-height: 0.22rem;
+            font-weight: bolder;
+            margin-top: 0.06rem;
+            -webkit-text-stroke: 0.012rem rgb(98, 66, 43);
+            color: white;
+        }
+        .shop-item-buy-dialog-coin {
+            height: 0.22rem;
+        }
+        .shop-item-buy-dialog-price {
+            position: relative;
+            margin-top: 0.12rem;
+            height: 0.22rem;
+            line-height: 0.22rem;
+            padding: 0 1.05rem 0 0.8rem;
+            font-size: 0.18rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .shop-item-buy-dialog-amount {
+            position: relative;
+            margin-top: 0.14rem;
+            height: 0.22rem;
+            line-height: 0.22rem;
+            padding: 0 1.05rem 0 0.8rem;
+            font-size: 0.18rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .shop-item-buy-dialog-amount-input {
+            width: 0.6rem;
+            height: 0.23rem;
+            border: none;
+            border-radius: 0.03rem;
+            font-size: 0.16rem;
+            font-family: 黑体;
+            color: white;
+            text-align: center;
+            margin-right: 0.111rem;
+            background-color: rgba(0,0,0,0);
+        }
+        .shop-item-buy-dialog-price-em {
+            color: #fffd32;
+            height: 0.23rem;
+            display: inline-block;
+            margin-right: 0.1rem;
+            -webkit-text-stroke: 0.01rem #aa7836;
+            font-weight: bolder;
+        }
+        .shop-item-buy-dialog-button {
+            width: 1.38rem;
+            height: 0.4rem;
+            line-height: 0.45rem;
+            background-size: 100% 100%;
+            position: relative;
+            margin: 0.11rem auto 0 auto;
+            border-radius: 0.06rem;
+            opacity: 0;
+            /*background-color: rgb(224, 72,47);*/
+            /*border: 0.03rem solid rgb(183, 57,36);*/
+        }
+        .shop-item-buy-dialog-button-img {
+            width: 0.5rem;
+            margin-top: 0.07rem;
+        }
+        #items {
+            display: flex;
+            justify-content: space-around;
+            width: 81%;
+        }
+        .dialog-div {
+            height: 2.74rem;
+            width: 100%;
+            background-image: url("img/dialog_bg.png");
+            background-size: 100% 100%;
+            position: absolute;
+            color: #2e2e2e;
+        }
+        .dialog-charge-div {
+            height: 1.96rem;
+            width: 100%;
+            background-image: url("img/shop_fail_bg.png");
+            background-size: 100% 100%;
+            position: absolute;
+        }
+        .dialog-charge-button {
+            width: 1.1rem;
+            height: 0.53rem;
+            line-height: 0.53rem;
+            background-image: url("img/shop_charge.png");
+            background-size: 100% 100%;
+            font-size: 0.2rem;
+            margin: 0.2rem auto 0 auto;
+        }
+        .dialog-fail-desc {
+            font-size: 0.2rem;
+            color: #bf1a1a;
+            margin-top: 0.72rem;
+        }
+        .dialog-buy-success {
+            background-image: url("img/shop_success_bg.png");
+            background-size: 100% 100%;
+            width: 100%;
+            height: 1.95rem;
+        }
+        .dialog-buy-success-words {
+            width: 70%;
+            margin-top: 0.45rem;
+        }
+    </style>
+    <script src="js/angular.js"></script>
+</head>
+<body  ng-app="myApp" ng-controller="myCtrl">
+<div class="shop-name-div">
+    <img src="img/shop_name.png" class="shop-name">
+    <img src="img/shop_return.png" class="shop-return">
+</div>
+<div class="shop-center shop-box">
+    <div class="shop-category-button shop-feed-button">饲料</div>
+    <div class="shop-category-button shop-theme-button" ng-click="toTheme()">主题</div>
+</div>
+<div class="shop-center shop-item" id="item-detail">
+    <div class="shop-item-img-div"><img class="shop-item-img" ng-src="{{data[active].url}}"></div>
+    <div class="shop-item-name">{{data[active].name}}</div>
+    <div class="shop-item-desc">{{data[active].desc}}</div>
+</div>
+<div class="shop-buy-button" ng-click="buy()">
+    <div class="shop-buy-button-inner">
+        <img class="shop-buy-text" src="img/shop_buy.png">
+        <img class="shop_button_buy_coin" src="img/shop_button_buy_coin.png">
+        <div class="shop_button_buy_price">{{data[active].price}}</div>
+    </div>
+</div>
+<div class="shop-item-list">
+    <img src="img/shop_arrow_left.png" ng-click="prevItem()">
+    <div id="items" >
+        <div class="shop-item-list-div" ng-repeat="(index, item) in data" ng-class="{'shop-item-list-active': index==active, 'show': checkShow(index)}" ng-click="changeItem(index)">
+            <img ng-src="{{item.url}}">
+            <div class="shop-item-list-name">{{item.name}}</div>
+        </div>
+    </div>
+    <img src="img/shop_arrow_right.png" ng-click="nextItem()">
+</div>
+<div ng-if="showBuy">
+    <mask class="mask" style="z-index: 1;"></mask>
+    <div class="dialog" style="z-index: 2;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 3;" ng-click="closeBuy()">
+        <div class="dialog-div">
+            <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" ng-src="{{data[active].url}}"></div>
+            <div class="shop-item-buy-dialog-name">{{data[active].name}}</div>
+            <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{data[active].price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_button_buy_coin.png"></div>
+            <div class="shop-item-buy-dialog-amount"><span>数量：</span><input type="number" ng-model="buyAmount" class="shop-item-buy-dialog-amount-input"><span>袋</span></div>
+            <button class="shop-item-buy-dialog-button" ng-click="confirmBuy(buyAmount)"></button>
+        </div>
+    </div>
+</div>
+<div ng-if="showSuccess">
+    <mask class="mask" style="z-index: 31;"></mask>
+    <div class="dialog" style="z-index: 32;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 33;" ng-click="closeSuccess()">
+        <div>
+            <div class="dialog-buy-success">
+                <img class="dialog-buy-success-words" src="img/shop_success_words.png">
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="showCharge">
+    <mask class="mask" style="z-index: 331;"></mask>
+    <div class="dialog" style="z-index: 332;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 333;" ng-click="closeCharge()">
+        <div class="dialog-charge-div">
+            <div class="dialog-fail-desc">余额不足，请充值！</div>
+            <div class="dialog-charge-button">充值</div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http, $location) {
+        function currentAccount() {
+            return window.location.search.substring(1);
+        }
+        $http.get("http://39.105.86.90/feed/getAll").then(function (response) {
+            $scope.data = response.data;
+            $scope.active = 0;
+            $scope.show =[];
+            for (var i = 0; i < Math.min(4, $scope.data.length); i ++) {
+                $scope.show.push(i);
+            }
+        }, function (response) {
+            alert(JSON.stringify(response.data.errors))
+        })
+        $scope.toTheme = function() {
+            $location.href = "shop-theme.html" + $location.search;
+        }
+        $scope.checkShow = function (index) {
+            var ret = false;
+            $scope.show.map(function (value) {
+                if (value == index) ret = true;
+            })
+            return ret;
+        }
+        $scope.changeItem = function (index) {
+            $scope.active = index;
+        }
+        $scope.prevItem = function () {
+            var array = $scope.show;
+            if (array[0] > 0) {
+                array.pop();
+                array.unshift(array[0] - 1);
+            }
+            if ($scope.active > array[array.length - 1]) {
+                $scope.active = array[array.length - 1];
+            }
+        }
+        $scope.nextItem = function () {
+            var array = $scope.show;
+            if (array[array.length - 1] < $scope.data.length - 1) {
+                array.shift();
+                array.push(array[array.length - 1] + 1);
+            }
+            if ($scope.active < array[0]) {
+                $scope.active = array[0];
+            }
+        }
+        $scope.buy = function () {
+            $scope.showBuy = true;
+            $scope.buyAmount = 1;
+        }
+        $scope.closeBuy = function () {
+            $scope.showBuy = false;
+        }
+        $scope.confirmBuy = function (buyAmount) {
+            $http.post("http://39.105.86.90/feed/buy", {
+                feedId: $scope.data[$scope.active].id,
+                amount: buyAmount,
+                accountID: currentAccount()
+            }).then(function () {
+                $scope.showSuccess = true;
+            }, function (response) {
+                if (response.data.code == "no.money") {
+                    $scope.showCharge = true;
+                } else {
+                    alert(JSON.stringify(response.data.errors))
+                }
+            })
+        }
+        $scope.closeSuccess = function () {
+            $scope.showSuccess = false;
+            $scope.closeBuy();
+        }
+        $scope.closeCharge = function () {
+            $scope.showCharge = false;
+            $scope.closeBuy();
+        }
+    });
+</script>
+</body>
+</html>
