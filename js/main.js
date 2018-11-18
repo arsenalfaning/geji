@@ -118,3 +118,12 @@ function bind(string, data) {
 function currentAccount() {
     return location.search.substring(1);
 }
+function back() {
+    history.back(-1);
+}
+function toFeed() {
+    location.href="shop.html" + location.search;
+}
+function toTheme() {
+    location.href="shop-theme.html" + location.search;
+}

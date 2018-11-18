@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <title>饲料-商店</title>
+    <title>主题-商店</title>
     <script type="application/javascript">
         ! function(e, t) {
             var n = t.documentElement,
@@ -80,88 +80,105 @@
             background-image: url("img/shop_bg_2.png");
             background-size: 100% 100%;
             height: 2.82rem;
+            position: relative;
+        }
+        .shop-item-div {
+            display: none;
         }
         .shop-item-img-div {
-            height: 1.1rem;
+            height: 1.25rem;
             position: relative;
-            top: 0.26rem;
+            padding-top: 0.12rem;
         }
         .shop-item-img {
-            height: 1.1rem;
+            height: 1.25rem;
             display: block;
             margin: 0 auto;
         }
         .shop-item-name {
             position: relative;
-            top: 0.33rem;
-            height: 0.33rem;
-            line-height: 0.33rem;
-            font-size: 0.3rem;
+            height: 0.18rem;
+            line-height: 0.18rem;
+            font-size: 0.18rem;
             font-weight: bolder;
             text-align: center;
-            -webkit-text-stroke: 0.012rem rgb(98, 66, 43);
-            letter-spacing: 0.02rem;
+            /*-webkit-text-stroke: 0.01rem rgb(98, 66, 43);*/
+            text-shadow: 0 1px rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 0 1px rgb(98, 66, 43);
+            padding-top: 0.04rem;
+        }
+        .shop-item-price {
+            height: 0.15rem;
+            font-size: 0.15rem;
+            line-height: 0.14rem;
+            text-align: center;
+            padding-top: 0.04rem;
+            text-shadow: 0 1px rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 0 1px rgb(98, 66, 43);
+        }
+        .shop-item-price-coin {
+            margin-left: 0.1rem;
+            width: 0.15rem;
         }
         .shop-item-desc {
             font-size: 0.12rem;
             position: relative;
-            top: 0.33rem;
             line-height: 0.22rem;
             padding: 0.1rem 0.18rem;
             letter-spacing: 0.005rem;
             text-align: justify;
             color: #4e4e4e;
         }
-        .shop-buy-button {
-            width: 2rem;
-            height: 0.96rem;
-            margin: 0.3rem auto;
-            background-image: url("img/shop_buy_button_2.png");
-            background-size: 100% 100%;
-        }
-        .shop-buy-button-inner {
-            width: 96%;
-            height: 92%;
-            background-image: url("img/shop_buy_button_1.png");
-            background-size: 100% 100%;
-            margin: auto;
-            position: relative;
-            top: 4%;
-        }
-        .shop-buy-text {
-            width: 0.7rem;
-            display: block;
-            margin: 0 auto 0.1rem auto;
-            position: relative;
-            top: 0.12rem;
-        }
-        .shop_button_buy_coin {
-            width: 0.3rem;
-            float: left;
-            position: relative;
-            left: 0.3rem;
-            bottom: 0;
-        }
-        .shop_button_buy_price {
-            display: inline-block;
-            width: 0.8rem;
-            text-align: right;
-            font-size: 0.19rem;
-            position: relative;
-            float: right;
-            right: 0.28rem;
-            bottom: -0.05rem;
-        }
-        .shop-item-list {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 0.05rem;
-        }
-        .shop-item-list img {
+        .shop-arrow-left, .shop-arrow-right {
             height: 0.54rem;
-            position: relative;
-            top: 0.06rem
+            position: absolute;
+            z-index: 1;
         }
+        .shop-arrow-left {
+            top: 0.96rem;
+            left: -0.06rem;
+        }
+        .shop-arrow-right {
+            top: 0.96rem;
+            right: -0.06rem;
+        }
+        .shop-theme-props {
+            background-color: rgb(200, 182, 155);
+            margin-top: 0.02rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0.08rem 0;
+        }
+        .shop-theme-prop {
+            width: 1.09rem;
+            height: 1.06rem;
+            line-height: 1.06rem;
+            background-image: url("img/shop_theme_prop_bg.png");
+            background-size: 100% 100%;
+            margin: 0.02rem;
+            text-align: center;
+            position: relative;
+        }
+        .shop-theme-prop2 {
+            background-image: url("img/shop_theme_prop_bg2.png");
+        }
+        .shop-theme-prop-img {
+            max-height: 0.57rem;
+            max-width: 0.75rem;
+            vertical-align: bottom;
+            margin-bottom: 0.32rem;
+        }
+        .shop-theme-prop-price {
+            height: 0.3rem;
+            line-height: 0.3rem;
+            font-size: 0.08rem;
+            text-align: center;
+            color: #ebc014;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+
         .shop-item-list-div {
             width: 0.66rem;
             height: 0.66rem;
@@ -185,30 +202,30 @@
 
         .shop-item-buy-dialog-img-div {
             position: relative;
-            height: 0.84rem;
-            margin-top: 0.26rem;
+            height: 0.85rem;
+            margin-top: 0.3rem;
         }
         .shop-item-buy-dialog-img {
-            height: 0.84rem;
+            height: 0.85rem;
         }
         .shop-item-buy-dialog-name {
             position: relative;
-            font-size: 0.22rem;
-            height: 0.22rem;
-            line-height: 0.22rem;
+            font-size: 0.2rem;
+            height: 0.2rem;
+            line-height: 0.2rem;
             font-weight: bolder;
-            margin-top: 0.06rem;
-            -webkit-text-stroke: 0.012rem rgb(98, 66, 43);
+            margin-top: 0.1rem;
+            text-shadow: 0 1px rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 1px 0 rgb(98, 66, 43), 0 1px rgb(98, 66, 43);
             color: white;
         }
         .shop-item-buy-dialog-coin {
-            height: 0.22rem;
+            height: 0.28rem;
         }
         .shop-item-buy-dialog-price {
             position: relative;
-            margin-top: 0.12rem;
-            height: 0.22rem;
-            line-height: 0.22rem;
+            margin-top: 0.19rem;
+            height: 0.24rem;
+            line-height: 0.24rem;
             padding: 0 1.05rem 0 0.8rem;
             font-size: 0.18rem;
             display: flex;
@@ -247,14 +264,17 @@
         .shop-item-buy-dialog-button {
             width: 1.38rem;
             height: 0.4rem;
-            line-height: 0.45rem;
+            line-height: 0.3rem;
             background-size: 100% 100%;
             position: relative;
-            margin: 0.11rem auto 0 auto;
+            margin: 0.18rem auto 0 auto;
             border-radius: 0.06rem;
-            opacity: 0;
-            /*background-color: rgb(224, 72,47);*/
-            /*border: 0.03rem solid rgb(183, 57,36);*/
+            background-color: rgb(224, 72,47);
+            border: 0.03rem solid rgb(183, 57,36);
+            font-size: 0.24rem;
+            font-weight: bolder;
+            color: #fffd32;
+            -webkit-text-stroke: 0.012rem rgb(178, 55, 34);
         }
         .shop-item-buy-dialog-button-img {
             width: 0.5rem;
@@ -268,7 +288,7 @@
         .dialog-div {
             height: 2.74rem;
             width: 100%;
-            background-image: url("img/dialog_bg.png");
+            background-image: url("img/shop_theme_buy_bg.png");
             background-size: 100% 100%;
             position: absolute;
             color: #2e2e2e;
@@ -307,8 +327,8 @@
     </style>
     <script type="application/javascript">
         function changeItem(e) {
-            var className = "shop-item-list-active";
-            var ee = document.getElementsByClassName("shop-item-list-div");
+            var className = "show";
+            var ee = document.getElementsByClassName("shop-item-div");
             for (var i = 0; i < ee.length; i ++) {
                 var div = ee[i];
                 div.classList.remove(className)
@@ -320,9 +340,19 @@
         }
         function refreshView() {
             var item = window.data.filter(function (value) { return value.id == window.activeId })[0];
-            var detail = document.getElementById("item-detail");
-            detail.innerHTML = bind(document.getElementById("item-detail-template").innerHTML, item);
-            document.getElementById("item-price").innerHTML = item.price;
+            var t ="";
+            var notBuy = document.getElementById("theme-prop-not-buy").innerHTML;
+            var hasBuy = document.getElementById("theme-prop-has-buy").innerHTML;
+            if (item.props) {
+                item.props.map(function (prop) {
+                    if (prop.have) {
+                        t += bind(hasBuy, prop);
+                    } else {
+                        t += bind(notBuy, prop);
+                    }
+                })
+            }
+            document.getElementById("theme-props").innerHTML = t;
         }
         function showDialog() {
             var item = window.data.filter(function (value) { return value.id == window.activeId })[0];
@@ -331,35 +361,44 @@
             div.classList.add("dialog-div");
             dialog(div);
         }
+        function showPropDialog(propId) {
+            var theme = window.data.filter(function (value) { return value.id == window.activeId })[0];
+            var p = theme.props.filter(function (prop) {
+                return prop.id == propId;
+            })[0];
+            var div = document.createElement("div");
+            div.innerHTML = bind(document.getElementById("_dialog-template2").innerHTML, p);
+            div.classList.add("dialog-div");
+            dialog(div);
+        }
         function loadData() {
-            get("http://39.105.86.90/feed/getAll", function (data) {
+            post("http://39.105.86.90/theme/getAll", {accountID: currentAccount()}, function (data) {
                 window.data = data;
                 window.activeId = data[0] ? data[0].id : undefined;
                 window.showIndex = 0;
-                var html = document.getElementById("item-template").innerHTML;
-                var t = "";
+                var notBuy = document.getElementById("item-detail-template").innerHTML;
+                var hasBuy = document.getElementById("item-detail-template-has-buy").innerHTML;
+                var details = document.getElementById("item-detail");
                 data.map(function (item) {
-                    t += bind(html, item);
-                })
-                var items = document.getElementById("items");
-                items.innerHTML = t;
-                for (var i = 0; i < 4; i ++) {
-                    if ( items.children.item(i) ) {
-                        items.children.item(i).classList.add("show");
+                    var html = notBuy;
+                    if (item.have) {
+                        html = hasBuy;
                     }
-                }
-                changeItem(items.children.item(0));
+                    var tmp = bind(html, item);
+                    var div = document.createElement("div");
+                    div.innerHTML = tmp;
+                    div.classList.add("shop-item-div");
+                    div.setAttribute("data-id", item.id);
+                    details.append(div);
+                })
+                changeItem(details.children.item(0));
+                return;
             })
         }
         function prevItem() {
-            if (window.showIndex > 0) {
-                var items = document.getElementById("items");
-                items.children.item(window.showIndex + 3).classList.remove("show");
-                items.children.item(window.showIndex - 1).classList.add("show");
-                window.showIndex --;
-                if (findIndex(window.activeId) > window.showIndex + 3) {
-                    changeItem(items.children.item(window.showIndex + 3))
-                }
+            var index = findIndex(window.activeId);
+            if (index > 0) {
+                changeItem(document.getElementById("item-detail").children.item(index - 1));
             }
         }
         function findIndex(id) {
@@ -370,23 +409,9 @@
             }
         }
         function nextItem() {
-            if (window.showIndex < window.data.length - 4) {
-                var items = document.getElementById("items");
-                items.children.item(window.showIndex).classList.remove("show");
-                items.children.item(window.showIndex + 4).classList.add("show");
-                window.showIndex ++;
-                if (findIndex(window.activeId) < window.showIndex) {
-                    changeItem(items.children.item(window.showIndex))
-                }
-            }
-        }
-        function onlyDigital(event) {
-            event = event || window.event;
-            var e = event.target;
-            var array = e.value.match(/\d/g);
-            e.value = array ? array.join("") : "";
-            if (e.value) {
-                e.value = parseInt(e.value);
+            var index = findIndex(window.activeId);
+            if (index < window.data.length - 1) {
+                changeItem(document.getElementById("item-detail").children.item(index + 1));
             }
         }
         function showChargeDialog() {
@@ -398,7 +423,9 @@
         function showSuccessDialog() {
             var div = document.createElement("div");
             div.innerHTML = document.getElementById("buy-success-template").innerHTML;
-            dialog(div, closeAllDialog);
+            dialog(div, function () {
+                location.reload(true);
+            });
         }
         function buyItem() {
             /**
@@ -409,9 +436,24 @@
              */
             var button = document.getElementById("orderButton");
             button.setAttribute("disabled", "true");
-            post("http://39.105.86.90/feed/buy", {
-                feedId: button.getAttribute("data-id"),
-                amount: document.getElementById("orderAmount").value,
+            post("http://39.105.86.90/theme/buy", {
+                themeId: button.getAttribute("data-id"),
+                accountID: currentAccount()
+            }, function () {
+                showSuccessDialog();
+            }, function (err) {
+                if (err.code == "no.money") {
+                    showChargeDialog();
+                } else {
+                    alert(JSON.stringify(err.errors))
+                }
+            })
+        }
+        function buyProp() {
+            var button = document.getElementById("orderButton2");
+            button.setAttribute("disabled", "true");
+            post("http://39.105.86.90/prop/buy", {
+                propId: button.getAttribute("data-id"),
                 accountID: currentAccount()
             }, function () {
                 showSuccessDialog();
@@ -424,20 +466,38 @@
             })
         }
     </script>
-    <script id="item-template" type="application/template">
-        <div class="shop-item-list-div" onclick="changeItem(this)" data-id="{{id}}"><img src="{{url}}"><div class="shop-item-list-name">{{name}}</div></div>
-    </script>
+
     <script id="item-detail-template" type="application/template">
+        <img class="shop-arrow-left" src="img/shop_arrow_left.png" onclick="prevItem()">
+        <div class="shop-item-img-div"><img class="shop-item-img gray" src="{{url}}" onclick="showDialog()"></div>
+        <div class="shop-item-name">{{name}}</div>
+        <div class="shop-item-price"><span class="vertical-top">售价：<span class="vertical-top">{{price}}</span><img class="shop-item-price-coin" src="img/shop_theme_coin.png"></span></div>
+        <div class="shop-item-desc">{{desc}}</div>
+        <img class="shop-arrow-right" src="img/shop_arrow_right.png" onclick="nextItem()">
+    </script>
+    <script id="item-detail-template-has-buy" type="application/template">
+        <img class="shop-arrow-left" src="img/shop_arrow_left.png" onclick="prevItem()">
         <div class="shop-item-img-div"><img class="shop-item-img" src="{{url}}"></div>
         <div class="shop-item-name">{{name}}</div>
+        <div class="shop-item-price"><span class="vertical-top">已拥有</span></div>
         <div class="shop-item-desc">{{desc}}</div>
+        <img class="shop-arrow-right" src="img/shop_arrow_right.png" onclick="nextItem()">
     </script>
+
     <script id="_dialog-template" type="application/template">
         <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="{{url}}"></div>
         <div class="shop-item-buy-dialog-name">{{name}}</div>
-        <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_button_buy_coin.png"></div>
-        <div class="shop-item-buy-dialog-amount"><span>数量：</span><input type="number" id="orderAmount" value="1" class="shop-item-buy-dialog-amount-input" oninput="onlyDigital(event)"><span>袋</span></div>
+        <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
         <button class="shop-item-buy-dialog-button" id="orderButton" onclick="buyItem()" data-id="{{id}}">
+            购买
+        </button>
+    </script>
+    <script id="_dialog-template2" type="application/template">
+        <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="{{url}}"></div>
+        <div class="shop-item-buy-dialog-name">{{name}}</div>
+        <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
+        <button class="shop-item-buy-dialog-button" id="orderButton2" onclick="buyProp()" data-id="{{id}}">
+            购买
         </button>
     </script>
     <script id="buy-fail-not-enough-template" type="application/template">
@@ -447,6 +507,18 @@
     <script id="buy-success-template" type="application/template">
         <div class="dialog-buy-success">
             <img class="dialog-buy-success-words" src="img/shop_success_words.png">
+        </div>
+    </script>
+    <script id="theme-prop-not-buy" type="application/template">
+        <div class="shop-theme-prop" data-id="{{id}}" onclick="showPropDialog('{{id}}')">
+            <img class="shop-theme-prop-img gray" src="{{url}}">
+            <div class="shop-theme-prop-price">{{price}}</div>
+        </div>
+    </script>
+    <script id="theme-prop-has-buy" type="application/template">
+        <div class="shop-theme-prop shop-theme-prop2" data-id="{{id}}">
+            <img class="shop-theme-prop-img" src="{{url}}">
+            <div class="shop-theme-prop-price">已拥有</div>
         </div>
     </script>
 </head>
@@ -460,18 +532,10 @@
         <div class="shop-category-button shop-theme-button" onclick="toTheme()">主题</div>
     </div>
     <div class="shop-center shop-item" id="item-detail">
+
     </div>
-    <div class="shop-buy-button" onclick="showDialog()">
-        <div class="shop-buy-button-inner">
-            <img class="shop-buy-text" src="img/shop_buy.png">
-            <img class="shop_button_buy_coin" src="img/shop_button_buy_coin.png">
-            <div class="shop_button_buy_price" id="item-price"></div>
-        </div>
-    </div>
-    <div class="shop-item-list">
-        <img src="img/shop_arrow_left.png" onclick="prevItem()">
-        <div id="items"></div>
-        <img src="img/shop_arrow_right.png" onclick="nextItem()">
+    <div class="shop-center shop-theme-props" id="theme-props">
+
     </div>
 </body>
 </html>
