@@ -8,18 +8,17 @@
     <script type="application/javascript">
         ! function(e, t) {
             var n = t.documentElement,
-            d = e.devicePixelRatio || 1;
+                d = e.devicePixelRatio || 1;
             function i() {
                 var e = n.clientWidth / 3.75;
                 n.style.fontSize = e.toFixed(0) + "px"
             }
             if ( function e() {
-                    t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e)
-                }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
+                t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e)
+            }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
                 a = t.createElement("div");
                 a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o) } }(window, document)
     </script>
-    <script type="application/javascript" src="js/main.js"></script>
     <link href="css/main.css" type="text/css" media="screen" rel="stylesheet">
     <style type="text/css">
         html {
@@ -81,9 +80,6 @@
             background-size: 100% 100%;
             height: 2.82rem;
             position: relative;
-        }
-        .shop-item-div {
-            display: none;
         }
         .shop-item-img-div {
             height: 1.25rem;
@@ -276,15 +272,7 @@
             color: #fffd32;
             -webkit-text-stroke: 0.012rem rgb(178, 55, 34);
         }
-        .shop-item-buy-dialog-button-img {
-            width: 0.5rem;
-            margin-top: 0.07rem;
-        }
-        #items {
-            display: flex;
-            justify-content: space-around;
-            width: 81%;
-        }
+
         .dialog-div {
             height: 2.74rem;
             width: 100%;
@@ -325,217 +313,165 @@
             margin-top: 0.45rem;
         }
     </style>
-    <script type="application/javascript">
-        function changeItem(e) {
-            var className = "show";
-            var ee = document.getElementsByClassName("shop-item-div");
-            for (var i = 0; i < ee.length; i ++) {
-                var div = ee[i];
-                div.classList.remove(className)
-            }
-            e.classList.add(className)
-            var id = e.getAttribute("data-id");
-            window.activeId = id;
-            refreshView();
-        }
-        function refreshView() {
-            var item = window.data.filter(function (value) { return value.id == window.activeId })[0];
-            var t ="";
-            var notBuy = document.getElementById("theme-prop-not-buy").innerHTML;
-            var hasBuy = document.getElementById("theme-prop-has-buy").innerHTML;
-            if (item.props) {
-                item.props.map(function (prop) {
-                    if (prop.have) {
-                        t += bind(hasBuy, prop);
-                    } else {
-                        t += bind(notBuy, prop);
-                    }
-                })
-            }
-            document.getElementById("theme-props").innerHTML = t;
-        }
-        function showDialog() {
-            var item = window.data.filter(function (value) { return value.id == window.activeId })[0];
-            var div = document.createElement("div");
-            div.innerHTML = bind(document.getElementById("_dialog-template").innerHTML, item);
-            div.classList.add("dialog-div");
-            dialog(div);
-        }
-        function showPropDialog(propId) {
-            var theme = window.data.filter(function (value) { return value.id == window.activeId })[0];
-            var p = theme.props.filter(function (prop) {
-                return prop.id == propId;
-            })[0];
-            var div = document.createElement("div");
-            div.innerHTML = bind(document.getElementById("_dialog-template2").innerHTML, p);
-            div.classList.add("dialog-div");
-            dialog(div);
-        }
-        function loadData() {
-            post("http://39.105.86.90/theme/getAll", {accountID: currentAccount()}, function (data) {
-                window.data = data;
-                window.activeId = data[0] ? data[0].id : undefined;
-                window.showIndex = 0;
-                var notBuy = document.getElementById("item-detail-template").innerHTML;
-                var hasBuy = document.getElementById("item-detail-template-has-buy").innerHTML;
-                var details = document.getElementById("item-detail");
-                data.map(function (item) {
-                    var html = notBuy;
-                    if (item.have) {
-                        html = hasBuy;
-                    }
-                    var tmp = bind(html, item);
-                    var div = document.createElement("div");
-                    div.innerHTML = tmp;
-                    div.classList.add("shop-item-div");
-                    div.setAttribute("data-id", item.id);
-                    details.append(div);
-                })
-                changeItem(details.children.item(0));
-                return;
-            })
-        }
-        function prevItem() {
-            var index = findIndex(window.activeId);
-            if (index > 0) {
-                changeItem(document.getElementById("item-detail").children.item(index - 1));
-            }
-        }
-        function findIndex(id) {
-            for (var i = 0; i < window.data.length; i ++) {
-                if (window.data[i].id == id) {
-                    return i;
-                }
-            }
-        }
-        function nextItem() {
-            var index = findIndex(window.activeId);
-            if (index < window.data.length - 1) {
-                changeItem(document.getElementById("item-detail").children.item(index + 1));
-            }
-        }
-        function showChargeDialog() {
-            var div = document.createElement("div");
-            div.innerHTML = document.getElementById("buy-fail-not-enough-template").innerHTML;
-            div.classList.add("dialog-charge-div");
-            dialog(div, closeAllDialog);
-        }
-        function showSuccessDialog() {
-            var div = document.createElement("div");
-            div.innerHTML = document.getElementById("buy-success-template").innerHTML;
-            dialog(div, function () {
-                location.reload(true);
-            });
-        }
-        function buyItem() {
-            /**
-             * 1.禁用掉购买的按钮
-             * 2.发送购买网络请求
-             * 3.购买成功，则显示结果，并关闭所有弹窗
-             * 4.购买失败，显示结果，并关闭所有弹窗
-             */
-            var button = document.getElementById("orderButton");
-            button.setAttribute("disabled", "true");
-            post("http://39.105.86.90/theme/buy", {
-                themeId: button.getAttribute("data-id"),
-                accountID: currentAccount()
-            }, function () {
-                showSuccessDialog();
-            }, function (err) {
-                if (err.code == "no.money") {
-                    showChargeDialog();
-                } else {
-                    alert(JSON.stringify(err.errors))
-                }
-            })
-        }
-        function buyProp() {
-            var button = document.getElementById("orderButton2");
-            button.setAttribute("disabled", "true");
-            post("http://39.105.86.90/prop/buy", {
-                propId: button.getAttribute("data-id"),
-                accountID: currentAccount()
-            }, function () {
-                showSuccessDialog();
-            }, function (err) {
-                if (err.code == "no.money") {
-                    showChargeDialog();
-                } else {
-                    alert(JSON.stringify(err.errors))
-                }
-            })
-        }
-    </script>
-
-    <script id="item-detail-template" type="application/template">
-        <img class="shop-arrow-left" src="img/shop_arrow_left.png" onclick="prevItem()">
-        <div class="shop-item-img-div"><img class="shop-item-img gray" src="{{url}}" onclick="showDialog()"></div>
-        <div class="shop-item-name">{{name}}</div>
-        <div class="shop-item-price"><span class="vertical-top">售价：<span class="vertical-top">{{price}}</span><img class="shop-item-price-coin" src="img/shop_theme_coin.png"></span></div>
-        <div class="shop-item-desc">{{desc}}</div>
-        <img class="shop-arrow-right" src="img/shop_arrow_right.png" onclick="nextItem()">
-    </script>
-    <script id="item-detail-template-has-buy" type="application/template">
-        <img class="shop-arrow-left" src="img/shop_arrow_left.png" onclick="prevItem()">
-        <div class="shop-item-img-div"><img class="shop-item-img" src="{{url}}"></div>
-        <div class="shop-item-name">{{name}}</div>
-        <div class="shop-item-price"><span class="vertical-top">已拥有</span></div>
-        <div class="shop-item-desc">{{desc}}</div>
-        <img class="shop-arrow-right" src="img/shop_arrow_right.png" onclick="nextItem()">
-    </script>
-
-    <script id="_dialog-template" type="application/template">
-        <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="{{url}}"></div>
-        <div class="shop-item-buy-dialog-name">{{name}}</div>
-        <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
-        <button class="shop-item-buy-dialog-button" id="orderButton" onclick="buyItem()" data-id="{{id}}">
-            购买
-        </button>
-    </script>
-    <script id="_dialog-template2" type="application/template">
-        <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" src="{{url}}"></div>
-        <div class="shop-item-buy-dialog-name">{{name}}</div>
-        <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
-        <button class="shop-item-buy-dialog-button" id="orderButton2" onclick="buyProp()" data-id="{{id}}">
-            购买
-        </button>
-    </script>
-    <script id="buy-fail-not-enough-template" type="application/template">
-        <div class="dialog-fail-desc">余额不足，请充值！</div>
-        <div class="dialog-charge-button">充值</div>
-    </script>
-    <script id="buy-success-template" type="application/template">
-        <div class="dialog-buy-success">
-            <img class="dialog-buy-success-words" src="img/shop_success_words.png">
-        </div>
-    </script>
-    <script id="theme-prop-not-buy" type="application/template">
-        <div class="shop-theme-prop" data-id="{{id}}" onclick="showPropDialog('{{id}}')">
-            <img class="shop-theme-prop-img gray" src="{{url}}">
-            <div class="shop-theme-prop-price">{{price}}</div>
-        </div>
-    </script>
-    <script id="theme-prop-has-buy" type="application/template">
-        <div class="shop-theme-prop shop-theme-prop2" data-id="{{id}}">
-            <img class="shop-theme-prop-img" src="{{url}}">
-            <div class="shop-theme-prop-price">已拥有</div>
-        </div>
-    </script>
+    <script src="js/angular.js"></script>
 </head>
-<body onload="loadData()">
-    <div class="shop-name-div">
-        <img src="img/shop_name.png" class="shop-name">
-        <img src="img/shop_return.png" class="shop-return" onclick="back()">
+<body ng-app="myApp" ng-controller="myCtrl">
+<div class="shop-name-div">
+    <img src="img/shop_name.png" class="shop-name">
+    <img src="img/shop_return.png" class="shop-return">
+</div>
+<div class="shop-center shop-box">
+    <div class="shop-category-button shop-feed-button" ng-click="toFeed()">饲料</div>
+    <div class="shop-category-button shop-theme-button">主题</div>
+</div>
+<div class="shop-center shop-item">
+    <div class="shop-item-div">
+        <img class="shop-arrow-left" src="img/shop_arrow_left.png"  ng-click="changeItem(-1)">
+        <div class="shop-item-img-div" ng-click="buyTheme()"><img class="shop-item-img" ng-class="{'gray': !data[active].have}" ng-src="{{data[active].url}}"></div>
+        <div class="shop-item-name">{{data[active].name}}</div>
+        <div class="shop-item-price"><span class="vertical-top">{{data[active].have ? "已拥有" : data[active].price}}</span></div>
+        <div class="shop-item-desc">{{data[active].desc}}</div>
+        <img class="shop-arrow-right" src="img/shop_arrow_right.png" ng-click="changeItem(1)">
     </div>
-    <div class="shop-center shop-box">
-        <div class="shop-category-button shop-feed-button" onclick="toFeed()">饲料</div>
-        <div class="shop-category-button shop-theme-button" onclick="toTheme()">主题</div>
+</div>
+<div class="shop-center shop-theme-props">
+    <div class="shop-theme-prop shop-theme-prop2" ng-repeat="prop in data[active].props" ng-click="buyProp(prop)">
+        <img class="shop-theme-prop-img" ng-class="{'gray': !prop.have}" ng-src="{{prop.url}}">
+        <div class="shop-theme-prop-price">{{prop.have ? "已拥有" : prop.price}}</div>
     </div>
-    <div class="shop-center shop-item" id="item-detail">
-
+</div>
+<div ng-if="showBuyTheme">
+    <mask class="mask" style="z-index: 1;"></mask>
+    <div class="dialog" style="z-index: 12;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 13;" ng-click="closeBuyTheme()">
+        <div class="dialog-div">
+            <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" ng-src="{{data[active].url}}"></div>
+            <div class="shop-item-buy-dialog-name">{{data[active].name}}</div>
+            <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{data[active].price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
+            <button class="shop-item-buy-dialog-button" ng-click="confirmBuyTheme()">
+                购买
+            </button>
+        </div>
     </div>
-    <div class="shop-center shop-theme-props" id="theme-props">
-
+</div>
+<div ng-if="showBuyProp">
+    <mask class="mask" style="z-index: 11;"></mask>
+    <div class="dialog" style="z-index: 12;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 13;" ng-click="closeBuyProp()">
+        <div class="dialog-div">
+            <div class="shop-item-buy-dialog-img-div"><img class="shop-item-buy-dialog-img" ng-src="{{prop.url}}"></div>
+            <div class="shop-item-buy-dialog-name">{{prop.name}}</div>
+            <div class="shop-item-buy-dialog-price"><span>价格：</span><span class="shop-item-buy-dialog-price-em">{{prop.price}}</span><img class="shop-item-buy-dialog-coin" src="img/shop_theme_coin.png"></div>
+            <button class="shop-item-buy-dialog-button" ng-click="confirmBuyProp()">
+                购买
+            </button>
+        </div>
     </div>
+</div>
+<div ng-if="showSuccess">
+    <mask class="mask" style="z-index: 31;"></mask>
+    <div class="dialog" style="z-index: 32;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 33;" ng-click="closeSuccess()">
+        <div>
+            <div class="dialog-buy-success">
+                <img class="dialog-buy-success-words" src="img/shop_success_words.png">
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="showCharge">
+    <mask class="mask" style="z-index: 331;"></mask>
+    <div class="dialog" style="z-index: 332;">
+        <img class="dialog-close" src="img/dialog_close.png" style="z-index: 333;" ng-click="closeCharge()">
+        <div class="dialog-charge-div">
+            <div class="dialog-fail-desc">余额不足，请充值！</div>
+            <div class="dialog-charge-button">充值</div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http, $location) {
+        function currentAccount() {
+            return window.location.search.substring(1);
+        }
+        function init() {
+            $http.post("http://39.105.86.90/theme/getAll", {
+                accountID: currentAccount()
+            }).then(function (response) {
+                $scope.data = response.data;
+                if ($scope.active == undefined) {
+                    $scope.active = 0;
+                }
+            }, function (response) {
+                alert(JSON.stringify(response.data.errors))
+            })
+        }
+        init();
+        $scope.toFeed = function() {
+            window.location.href = "shop-feed.html" + window.location.search;
+        }
+        $scope.changeItem = function (delta) {
+            var index = $scope.active;
+            index += delta;
+            if (index < 0) index = 0;
+            if (index >= $scope.data.length) index = $scope.data.length - 1;
+            $scope.active = index;
+        }
+        $scope.buyTheme = function () {
+            if ($scope.data[$scope.active].have) return;
+            $scope.showBuyTheme = true;
+        }
+        $scope.closeBuyTheme = function () {
+            $scope.showBuyTheme = false;
+        }
+        $scope.confirmBuyTheme = function () {
+            $http.post("http://39.105.86.90/theme/buy", {
+                themeId: $scope.data[$scope.active].id,
+                accountID: currentAccount()
+            }).then(function () {
+                $scope.showSuccess = true;
+            }, function (response) {
+                if (response.data.code == "no.money") {
+                    $scope.showCharge = true;
+                } else {
+                    alert(JSON.stringify(response.data.errors))
+                }
+            })
+        }
+        $scope.buyProp = function(prop) {
+            $scope.prop = prop;
+            $scope.showBuyProp = true;
+        }
+        $scope.closeBuyProp = function () {
+            $scope.showBuyProp = false;
+        }
+        $scope.confirmBuyProp = function () {
+            $http.post("http://39.105.86.90/prop/buy", {
+                propId: $scope.prop.id,
+                accountID: currentAccount()
+            }).then(function () {
+                $scope.showSuccess = true;
+            }, function (response) {
+                if (response.data.code == "no.money") {
+                    $scope.showCharge = true;
+                } else {
+                    alert(JSON.stringify(response.data.errors))
+                }
+            })
+        }
+        $scope.closeSuccess = function () {
+            init();
+            $scope.showSuccess = false;
+            $scope.closeBuyTheme();
+            $scope.closeBuyProp();
+        }
+        $scope.closeCharge = function () {
+            $scope.showCharge = false;
+            $scope.closeBuyTheme();
+            $scope.closeBuyProp();
+        }
+    });
+</script>
 </body>
 </html>

@@ -306,7 +306,7 @@
     </style>
     <script src="js/angular.js"></script>
 </head>
-<body  ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="myCtrl">
 <div class="shop-name-div">
     <img src="img/shop_name.png" class="shop-name">
     <img src="img/shop_return.png" class="shop-return">
@@ -388,7 +388,7 @@
             alert(JSON.stringify(response.data.errors))
         })
         $scope.toTheme = function() {
-            $location.href = "shop-theme.html" + $location.search;
+            window.location.href = "shop-theme.html" + window.location.search;
         }
         $scope.checkShow = function (index) {
             var ret = false;
