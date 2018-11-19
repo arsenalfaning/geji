@@ -373,11 +373,9 @@
 </div>
 <script>
     var app = angular.module('myApp', []);
+    addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http) {
-        function currentAccount() {
-            return window.location.search.substring(1);
-        }
-        $http.get("http://39.105.86.90/feed/getAll").then(function (response) {
+        $http.get("/feed/getAll").then(function (response) {
             $scope.data = response.data;
             $scope.active = 0;
             $scope.show =[];

@@ -391,12 +391,10 @@
 </div>
 <script>
     var app = angular.module('myApp', []);
+    addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http, $location) {
-        function currentAccount() {
-            return window.location.search.substring(1);
-        }
         function init() {
-            $http.post("http://39.105.86.90/theme/getAll", {
+            $http.post("/theme/getAll", {
                 accountID: currentAccount()
             }).then(function (response) {
                 $scope.data = response.data;
@@ -426,7 +424,7 @@
             $scope.showBuyTheme = false;
         }
         $scope.confirmBuyTheme = function () {
-            $http.post("http://39.105.86.90/theme/buy", {
+            $http.post("/theme/buy", {
                 themeId: $scope.data[$scope.active].id,
                 accountID: currentAccount()
             }).then(function () {
@@ -447,7 +445,7 @@
             $scope.showBuyProp = false;
         }
         $scope.confirmBuyProp = function () {
-            $http.post("http://39.105.86.90/prop/buy", {
+            $http.post("/prop/buy", {
                 propId: $scope.prop.id,
                 accountID: currentAccount()
             }).then(function () {

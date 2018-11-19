@@ -121,7 +121,7 @@
             background-position: 9% 50%;
         }
         .auction-td2-content {
-            line-height: 0.16rem;
+            line-height: 0.17rem;
             padding-top: 0.15rem;
             padding-left: 0.34rem;
         }
@@ -190,13 +190,11 @@
 </body>
 <script type="application/javascript">
     var app = angular.module('myApp', []);
+    addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http) {
-        function currentAccount() {
-            return window.location.search.substring(1);
-        }
-        $http.post("http://39.105.86.90/order/orders", {
+        $http.post("/order/orders", {
             page: 0,
-            size: 10
+            size: 8
         }).then(function (response) {
             $scope.data = response.data;
         }, function (response) {
