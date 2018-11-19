@@ -153,7 +153,7 @@
     </style>
     <script src="js/angular.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-init="init()" ng-controller="myCtrl" ng-class="{'show': showBody}" class="hide">
     <div class="auction-name-div">
         <img src="img/auction_name.png" class="auction-name">
         <img src="img/shop_return.png" class="auction-return">
@@ -174,7 +174,7 @@
                 <div class="auction-td2">
                     <div class="auction-td2-content">
                         <img class="auction-body-x" src="img/x.png">
-                        <span>{{item.amount}}</span>
+                        <span>{{item.amount - item.volume}}</span>
                         <div class="auction-body-egg-name">{{item.eggName}}</div>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                     <span>{{item.price}}</span>
                 </div>
                 <div class="auction-td4">
-                    <span>{{item.allPrice}}</span>
+                    <span>{{item.price * (item.amount - item.volume)}}</span>
                 </div>
             </div>
         </div>
@@ -192,14 +192,15 @@
     var app = angular.module('myApp', []);
     addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http) {
-        $http.post("/order/orders", {
-            page: 0,
-            size: 8
-        }).then(function (response) {
-            $scope.data = response.data;
-        }, function (response) {
-            alert(JSON.stringify(response.data.errors))
-        })
+        $scope.init = function() {
+            $http.post("/order/orders", {
+                page: 0,
+                size: 8
+            }).then(function (response) {
+                $scope.data = response.data;
+            })
+        }
+        $scope.showBody = true;
         $scope.select = function (id) {
             $scope.active = id;
         }

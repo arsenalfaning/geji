@@ -349,11 +349,21 @@ function currentAccount() {
     return window.location.search.substring(1);
 }
 function addHttpInterceptor(app) {
-    app.factory('mainHttpInterceptor', [function (){
+    app.factory('mainHttpInterceptor', ["$q", function ($q){
         return {
             request: function (config){
                 config.url = "http://39.105.86.90" + config.url;
                 return config;
+            },
+            responseError: function(response) {
+                if (response && response.data) {
+                    if (response.data.code != "no.money" && response.data.errors) {
+                        alert(JSON.stringify(response.data.errors));
+                    }
+                } else {
+                    alert("未知错误");
+                }
+                return $q.reject(response);
             }
         };
     }]);

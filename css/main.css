@@ -27,6 +27,9 @@
 .show {
     display: block !important;
 }
+.hide {
+    display: none;
+}
 .vertical-top {
     vertical-align: top;
 }

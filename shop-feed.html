@@ -306,7 +306,7 @@
     </style>
     <script src="js/angular.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="myCtrl" ng-init="init()" ng-class="{'show': showBody}" class="hide">
 <div class="shop-name-div">
     <img src="img/shop_name.png" class="shop-name">
     <img src="img/shop_return.png" class="shop-return">
@@ -337,7 +337,7 @@
     </div>
     <img src="img/shop_arrow_right.png" ng-click="nextItem()">
 </div>
-<div ng-if="showBuy">
+<div ng-class="{'hide': !showBuy}" ng-if="showBuy" class="">
     <mask class="mask" style="z-index: 1;"></mask>
     <div class="dialog" style="z-index: 2;">
         <img class="dialog-close" src="img/dialog_close.png" style="z-index: 3;" ng-click="closeBuy()">
@@ -350,7 +350,7 @@
         </div>
     </div>
 </div>
-<div ng-if="showSuccess">
+<div ng-class="{'hide': !showSuccess}" ng-if="showSuccess" class="">
     <mask class="mask" style="z-index: 31;"></mask>
     <div class="dialog" style="z-index: 32;">
         <img class="dialog-close" src="img/dialog_close.png" style="z-index: 33;" ng-click="closeSuccess()">
@@ -361,7 +361,7 @@
         </div>
     </div>
 </div>
-<div ng-if="showCharge">
+<div ng-class="{'hide': !showCharge}" ng-if="showCharge" class="">
     <mask class="mask" style="z-index: 331;"></mask>
     <div class="dialog" style="z-index: 332;">
         <img class="dialog-close" src="img/dialog_close.png" style="z-index: 333;" ng-click="closeCharge()">
@@ -371,20 +371,22 @@
         </div>
     </div>
 </div>
+</body>
 <script>
     var app = angular.module('myApp', []);
     addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http) {
-        $http.get("/feed/getAll").then(function (response) {
-            $scope.data = response.data;
-            $scope.active = 0;
-            $scope.show =[];
-            for (var i = 0; i < Math.min(4, $scope.data.length); i ++) {
-                $scope.show.push(i);
-            }
-        }, function (response) {
-            alert(JSON.stringify(response.data.errors))
-        })
+        $scope.init = function () {
+            $http.get("/feed/getAll").then(function (response) {
+                $scope.data = response.data;
+                $scope.active = 0;
+                $scope.show =[];
+                for (var i = 0; i < Math.min(4, $scope.data.length); i ++) {
+                    $scope.show.push(i);
+                }
+            })
+        }
+        $scope.showBody = true;
         $scope.toTheme = function() {
             window.location.href = "shop-theme.html" + window.location.search;
         }
@@ -426,7 +428,7 @@
             $scope.showBuy = false;
         }
         $scope.confirmBuy = function (buyAmount) {
-            $http.post("http://39.105.86.90/feed/buy", {
+            $http.post("/feed/buy", {
                 feedId: $scope.data[$scope.active].id,
                 amount: buyAmount,
                 accountID: currentAccount()
@@ -435,8 +437,6 @@
             }, function (response) {
                 if (response.data.code == "no.money") {
                     $scope.showCharge = true;
-                } else {
-                    alert(JSON.stringify(response.data.errors))
                 }
             })
         }
@@ -450,5 +450,4 @@
         }
     });
 </script>
-</body>
 </html>
