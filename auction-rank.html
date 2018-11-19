@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>商品-拍卖行</title>
+    <script type="application/javascript">
+        ! function(e, t) {
+            var n = t.documentElement,
+                d = e.devicePixelRatio || 1;
+            function i() {
+                var e = n.clientWidth / 3.75;
+                n.style.fontSize = e.toFixed(0) + "px"
+            }
+            if ( function e() {
+                t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e)
+            }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
+                a = t.createElement("div");
+                a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o) } }(window, document)
+    </script>
+    <link href="css/main.css" type="text/css" media="screen" rel="stylesheet">
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            background-image: url("img/auction_bg.png");
+            background-size: 100% auto;
+            height: 100%;
+            min-height: 6.6rem;
+            width: 100%;
+            color: #fff;
+            font-family: 黑体;
+        }
+        .auction-name-div {
+            background-image: url("img/auction_bg_1.png");
+            background-size: 100% 100%;
+            height: 0.6rem;
+        }
+        .auction-name {
+            width: 1.16rem;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            top: 0.15rem;
+        }
+        .auction-return {
+            width: 0.45rem;
+            position: absolute;
+            right: 0.03rem;
+            top: 0.03rem;
+        }
+        .auction-banner {
+            background-image: url("img/auction_banner.png");
+            background-size: 100% 100%;
+            width: 3.6rem;
+            height: 0.5rem;
+            line-height: 0.5rem;
+            margin: 0.04rem auto 0.036rem auto;
+            font-size: 0.26rem;
+            color: #C4A37D;
+            text-align: center;
+            -webkit-text-stroke: 0.012rem #462019;
+            font-weight: bolder;
+        }
+        .auction-table {
+            width: 3.5rem;
+            margin: 0 auto;
+            color: #fff;
+            text-align: center;
+        }
+        .auction-header {
+            height: 0.345rem;
+            line-height: 0.36rem;
+            font-size: 0.22rem;
+            background-image: url("img/auction_table_th.png");
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .auction-tbody {
+            height: 5.16rem;
+            background-image: url("img/auction_bg2.png");
+            background-size: 100% 100%;
+        }
+        .auction-th1,.auction-td1 {
+            width: 27%;
+            display: inline-block;
+        }
+        .auction-th2,.auction-td2 {
+            width: 30%;
+            display: inline-block;
+        }
+        .auction-th3,.auction-td3 {
+            width: 20%;
+            display: inline-block;
+        }
+        .auction-th4,.auction-td4 {
+            width: 22%;
+            display: inline-block;
+        }
+        .auction-body {
+            height: 0.5344rem;
+            background-image: url("img/auction_table_td.png");
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .auction-body-active {
+            background-image: url("img/auction_table_td2.png") !important;
+        }
+        .auction-td1 {
+            font-size: 0.11rem;
+            line-height: 0.5344rem;
+        }
+        .auction-td2 {
+            font-size: 0.145rem;
+            background-image: url("img/egg.png");
+            background-size: 0.299rem 0.417rem;
+            background-repeat: no-repeat;
+            background-position: 9% 50%;
+        }
+        .auction-td2-content {
+            line-height: 0.16rem;
+            padding-top: 0.15rem;
+            padding-left: 0.34rem;
+        }
+        .auction-td3 {
+            position: relative;
+            line-height: 0.45rem;
+            background-image: url("img/shop_theme_coin.png");
+            background-size: 0.17rem 0.17rem;
+            background-repeat: no-repeat;
+            background-position: center 92%;
+        }
+        .auction-td4 {
+            position: relative;
+            line-height: 0.45rem;
+            background-image: url("img/shop_theme_coin.png");
+            background-size: 0.17rem 0.17rem;
+            background-repeat: no-repeat;
+            background-position: center 92%;
+        }
+        .auction-body-x {
+            height: 0.074rem;
+            width: 0.071rem;
+        }
+        .auction-body-egg-name {
+            color: #FFF66D;
+            font-size: 0.0108rem;
+            text-shadow: 0 1px #56320F, 1px 0 #56320F, -1px 0 #56320F, 0 -1px #56320F;
+        }
+    </style>
+    <script src="js/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="auction-name-div">
+        <img src="img/auction_name.png" class="auction-name">
+        <img src="img/shop_return.png" class="auction-return">
+    </div>
+    <div class="auction-banner">
+        商品列表
+    </div>
+    <div class="auction-table">
+        <div class="auction-header">
+            <div class="auction-th1">用户</div>
+            <div class="auction-th2">个数</div>
+            <div class="auction-th3">单价</div>
+            <div class="auction-th4">总价</div>
+        </div>
+        <div class="auction-tbody">
+            <div class="auction-body" ng-repeat="item in data.content" ng-class="{'auction-body-active': item.id == active}" ng-click="select(item.id)">
+                <div class="auction-td1">{{item.userName}}</div>
+                <div class="auction-td2">
+                    <div class="auction-td2-content">
+                        <img class="auction-body-x" src="img/x.png">
+                        <span>{{item.amount}}</span>
+                        <div class="auction-body-egg-name">{{item.eggName}}</div>
+                    </div>
+                </div>
+                <div class="auction-td3">
+                    <span>{{item.price}}</span>
+                </div>
+                <div class="auction-td4">
+                    <span>{{item.allPrice}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="application/javascript">
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        function currentAccount() {
+            return window.location.search.substring(1);
+        }
+        $http.post("http://39.105.86.90/order/orders", {
+            page: 0,
+            size: 10
+        }).then(function (response) {
+            $scope.data = response.data;
+        }, function (response) {
+            alert(JSON.stringify(response.data.errors))
+        })
+        $scope.select = function (id) {
+            $scope.active = id;
+        }
+    });
+</script>
+</html>
