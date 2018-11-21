@@ -79,9 +79,11 @@
             justify-content: space-between;
         }
         .auction-tbody {
-            height: 5.16rem;
+            height: 4.56rem;
             background-image: url("img/auction_bg2.png");
             background-size: 100% 100%;
+            overflow-y: auto;
+            padding-bottom: 0.6rem;
         }
         .auction-th1,.auction-td1 {
             width: 27%;
@@ -153,7 +155,7 @@
     </style>
     <script src="js/angular.js"></script>
 </head>
-<body ng-app="myApp" ng-init="init()" ng-controller="myCtrl" ng-class="{'show': showBody}" class="hide">
+<body ng-app="myApp" ng-init="loadMore()" ng-controller="myCtrl" ng-class="{'show': showBody}" class="hide">
     <div class="auction-name-div">
         <img src="img/auction_name.png" class="auction-name">
         <img src="img/shop_return.png" class="auction-return">
@@ -168,8 +170,8 @@
             <div class="auction-th3">单价</div>
             <div class="auction-th4">总价</div>
         </div>
-        <div class="auction-tbody">
-            <div class="auction-body" ng-repeat="item in data.content" ng-class="{'auction-body-active': item.id == active}" ng-click="select(item.id)">
+        <div class="auction-tbody"  when-scrolled="loadMore()">
+            <div class="auction-body" ng-repeat="item in items" ng-class="{'auction-body-active': item.id == active}" ng-click="select(item.id)">
                 <div class="auction-td1">{{item.userName}}</div>
                 <div class="auction-td2">
                     <div class="auction-td2-content">
@@ -192,14 +194,40 @@
     var app = angular.module('myApp', []);
     addHttpInterceptor(app);
     app.controller('myCtrl', function($scope, $http) {
-        $scope.init = function() {
-            $http.post("/order/orders", {
-                page: 0,
-                size: 8
-            }).then(function (response) {
-                $scope.data = response.data;
-            })
-        }
+
+        // 当前页数
+        $scope.page = -1;
+        // 总页数
+        $scope.totalPages = 1;
+        // 防止重复加载
+        $scope.busy = false;
+        // 存放数据
+        $scope.items = [];
+        // 请求数据方法
+        $scope.loadMore = function() {
+            if ($scope.busy) {
+                return false;
+            }
+            if ($scope.page < $scope.totalPages) {
+                $scope.page ++;
+                console.log($scope.page);
+                $scope.busy = true;
+                $http.post("/order/orders", {
+                    page: $scope.page,
+                    size: 10
+                }).then(function (response) {
+                    if (response.data && response.data.content) {
+                        response.data.content.map(function (item) {
+                            $scope.items.push(item);
+                        })
+                        $scope.totalPages = response.data.totalPages;
+                    }
+                    $scope.busy = false;
+                }, function () {
+                    $scope.busy = false;
+                })
+            }
+        };
         $scope.showBody = true;
         $scope.select = function (id) {
             $scope.active = id;
