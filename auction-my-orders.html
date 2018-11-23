@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的挂单-拍卖行</title>
+    <script type="application/javascript">
+        ! function(e, t) {
+            var n = t.documentElement,
+                d = e.devicePixelRatio || 1;
+            function i() {
+                var e = n.clientWidth / 3.75;
+                n.style.fontSize = e.toFixed(0) + "px"
+            }
+            if ( function e() {
+                t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e)
+            }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function(e) { e.persisted && i() }), d >= 2) { var o = t.createElement("body"),
+                a = t.createElement("div");
+                a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o) } }(window, document)
+    </script>
+    <link href="css/main.css" type="text/css" media="screen" rel="stylesheet">
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            background-image: url("img/auction_bg.png");
+            background-size: 100% auto;
+            height: 100%;
+            min-height: 6.6rem;
+            width: 100%;
+            color: #fff;
+            font-family: 黑体;
+        }
+        .auction-name-div {
+            background-image: url("img/auction_bg_1.png");
+            background-size: 100% 100%;
+            height: 0.6rem;
+        }
+        .auction-name {
+            width: 1.16rem;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            top: 0.15rem;
+        }
+        .auction-return {
+            width: 0.45rem;
+            position: absolute;
+            right: 0.03rem;
+            top: 0.03rem;
+        }
+        .auction-banner {
+            background-image: url("img/auction_banner.png");
+            background-size: 100% 100%;
+            width: 3.6rem;
+            height: 0.5rem;
+            line-height: 0.5rem;
+            margin: 0.04rem auto 0.036rem auto;
+            font-size: 0.26rem;
+            color: #C4A37D;
+            text-align: center;
+            -webkit-text-stroke: 0.012rem #462019;
+            font-weight: bolder;
+        }
+        .auction-table {
+            width: 3.5rem;
+            margin: 0 auto;
+            color: #fff;
+            text-align: center;
+        }
+        .auction-header {
+            height: 0.345rem;
+            line-height: 0.36rem;
+            font-size: 0.22rem;
+            background-image: url("img/auction_table_th.png");
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .auction-tbody {
+            height: 5.16rem;
+            background-image: url("img/auction_bg2.png");
+            background-size: 100% 100%;
+        }
+        .auction-tbody-content {
+            height: 4.6rem;
+            overflow-y: auto;
+        }
+        .auction-th1,.auction-td1 {
+            width: 27%;
+            display: inline-block;
+        }
+        .auction-th2,.auction-td2 {
+            width: 30%;
+            display: inline-block;
+        }
+        .auction-th3,.auction-td3 {
+            width: 20%;
+            display: inline-block;
+        }
+        .auction-th4,.auction-td4 {
+            width: 22%;
+            display: inline-block;
+        }
+        .auction-body {
+            height: 0.5344rem;
+            background-image: url("img/auction_table_td.png");
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .auction-body-active {
+            background-image: url("img/auction_table_td2.png") !important;
+        }
+        .auction-td1 {
+            font-size: 0.11rem;
+            line-height: 0.5344rem;
+        }
+        .auction-td2 {
+            font-size: 0.145rem;
+            background-image: url("img/egg.png");
+            background-size: 0.299rem 0.417rem;
+            background-repeat: no-repeat;
+            background-position: 9% 50%;
+        }
+        .auction-td2-content {
+            line-height: 0.17rem;
+            padding-top: 0.15rem;
+            padding-left: 0.34rem;
+        }
+        .auction-td3 {
+            position: relative;
+            line-height: 0.45rem;
+            background-image: url("img/shop_theme_coin.png");
+            background-size: 0.17rem 0.17rem;
+            background-repeat: no-repeat;
+            background-position: center 92%;
+        }
+        .auction-td4 {
+            position: relative;
+            line-height: 0.45rem;
+            background-image: url("img/shop_theme_coin.png");
+            background-size: 0.17rem 0.17rem;
+            background-repeat: no-repeat;
+            background-position: center 92%;
+        }
+        .auction-body-x {
+            height: 0.074rem;
+            width: 0.071rem;
+        }
+        .auction-body-egg-name {
+            color: #FFF66D;
+            font-size: 0.0108rem;
+            text-shadow: 0 1px #56320F, 1px 0 #56320F, -1px 0 #56320F, 0 -1px #56320F;
+        }
+        .auction-footer {
+            display: flex;
+            justify-content: center;
+            padding-top: 0.035rem;
+        }
+        .auction-footer-button {
+            width: 1.08rem;
+            height: 0.5rem;
+            line-height: 0.5rem;
+            background-size: 100% 100%;
+            font-size: 0.22rem;
+        }
+        .auction-footer-button-off {
+            background-image: url("img/auction_my_orders_off.png");
+            margin-right: 0.1rem;
+        }
+        .auction-footer-button-on {
+            background-image: url("img/auction_my_orders_on.png");
+        }
+        .dialog-close2 {
+            top: 0;
+            right: 0.05rem;
+        }
+        .dialog-order-off {
+            background-image: url("img/auction_off_bg.png");
+            background-size: 100% 100%;
+            width: 100%;
+            height: 2.2rem;
+        }
+        .dialog-order-off-title {
+            font-size: 0.35rem;
+            color: #D0D0D0;
+            height: 0.42rem;
+            line-height: 0.42rem;
+        }
+        .dialog-order-off-content {
+            color: #563A26;
+            font-size: 0.18rem;
+            margin-top: 0.24rem;
+            line-height: 0.32rem;
+            height: 0.6rem;
+        }
+        .dialog-order-off-footer {
+            display: flex;
+            justify-content: center;
+            height: 0.9rem;
+        }
+        .button-on {
+            margin: 0.3rem 0.24rem;
+        }
+        .dialog-order-on {
+            height: 3.06rem;
+            width: 100%;
+            background-image: url("img/auction_on_bg.png");
+            background-size: 100% 100%;
+        }
+        .dialog-order-on-title {
+            color: #D3D857;
+        }
+        .dialog-order-on-content {
+            height: 2rem;
+        }
+        .dialog-order-on-eggs {
+            height: 0.68rem;
+            width: 2.68rem;
+            overflow-x: auto;
+            margin: 0.04rem auto 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        .dialog-order-on-egg {
+            width: 0.54rem;
+            height: 0.54rem;
+            margin: 0.07rem;
+            background-image: url("img/egg.png");
+            background-size: 0.33rem 0.44rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #9f8660;
+        }
+        .dialog-order-on-egg-name {
+            color: #563A26;
+            font-size: 0.14rem;
+            height: 0.3rem;
+            line-height: 0.3rem;
+        }
+        .dialog-order-on-egg-selected {
+            background-color: #cb5835;
+        }
+        .dialog-order-on-order-number {
+            display: flex;
+            justify-content: flex-start;
+            height: 0.3rem;
+            line-height: 0.3rem;
+        }
+        .dialog-order-on-order-price {
+            margin-top: 0.05rem;
+        }
+        .label {
+            font-size: 0.18rem;
+            color: #2e2e2e;
+            padding-left: 0.52rem;
+            padding-right: 0.05rem;
+        }
+        .input {
+            width: 0.6rem;
+            height: 0.22rem;
+            line-height: 0.22rem;
+            margin-top: 0.05rem;
+            font-size: 0.15rem;
+            color: #fff;
+            background-color: rgba(0,0,0,0);
+            border-width: 0;
+            text-align: center;
+        }
+        .input-coin {
+            color: #fffd32;
+            text-shadow: 0 1px #ffba3a, 1px 0 #ffba3a, -1px 0 #ffba3a, 0 -1px #ffba3a;
+            font-size: 0.16rem;
+            font-weight: bolder;
+        }
+        .unit {
+            margin-left: 0.1rem;
+            color: #2e2e2e;
+            width: 0.2rem;
+            height: 0.2rem;
+            display: inline-block;
+        }
+        .unit-coin {
+            background-image: url("img/shop_theme_coin.png");
+            background-size: 100% 100%;
+            margin-top: 0.05rem;
+        }
+        .dialog-order-on-footer {
+            display: flex;
+            justify-content: center;
+            height: 0.6rem;
+        }
+        .button-on2 {
+            margin: 0.05rem 0.24rem;
+        }
+    </style>
+    <script src="js/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-init="loadMore()" ng-controller="myCtrl" ng-class="{'show': showBody}" class="hide">
+    <div class="auction-name-div">
+        <img src="img/auction_name.png" class="auction-name">
+        <img src="img/shop_return.png" class="auction-return">
+    </div>
+    <div class="auction-banner">
+        我的挂单
+    </div>
+    <div class="auction-table">
+        <div class="auction-header">
+            <div class="auction-th1">用户</div>
+            <div class="auction-th2">个数</div>
+            <div class="auction-th3">单价</div>
+            <div class="auction-th4">总价</div>
+        </div>
+        <div class="auction-tbody">
+            <div class="auction-tbody-content" when-scrolled="loadMore()">
+                <div class="auction-body" ng-repeat="item in items" ng-class="{'auction-body-active': item.id == active.id}" ng-click="select(item)">
+                    <div class="auction-td1">{{item.userName}}</div>
+                    <div class="auction-td2">
+                        <div class="auction-td2-content">
+                            <img class="auction-body-x" src="img/x.png">
+                            <span>{{item.amount - item.volume}}</span>
+                            <div class="auction-body-egg-name">{{item.eggName}}</div>
+                        </div>
+                    </div>
+                    <div class="auction-td3">
+                        <span>{{item.price}}</span>
+                    </div>
+                    <div class="auction-td4">
+                        <span>{{item.price * (item.amount - item.volume)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="auction-footer">
+                <div class="auction-footer-button auction-footer-button-off" ng-click="orderOff()">下架</div>
+                <div class="auction-footer-button auction-footer-button-on" ng-click="orderOn()">挂单</div>
+            </div>
+        </div>
+    </div>
+    <div ng-class="{'hide': !showOff}" ng-if="showOff" class="">
+        <mask class="mask" style="z-index: 31;"></mask>
+        <div class="dialog" style="z-index: 32;">
+            <img class="dialog-close dialog-close2" src="img/dialog_close.png" style="z-index: 33;" ng-click="closeShowOff()">
+            <div class="dialog-order-off">
+                <div class="dialog-order-off-title">下架</div>
+                <div class="dialog-order-off-content">
+                    确认下架所拍卖的“{{active.eggName}}”<br>
+                    单价{{active.price}}金币，总价{{active.price * (active.amount - active.volume)}}金币。
+                </div>
+                <div class="dialog-order-off-footer">
+                    <div class="button-on" ng-class="{'gray': !active}" ng-click="doOrderOff()">确定</div>
+                    <div class="button-on gray" ng-click="closeShowOff()">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-class="{'hide': !showOn}" ng-if="showOn">
+        <mask class="mask" style="z-index: 31;"></mask>
+        <div class="dialog" style="z-index: 32;">
+            <img class="dialog-close dialog-close2" src="img/dialog_close.png" style="z-index: 33;" ng-click="closeShowOn()">
+            <div class="dialog-order-on">
+                <div class="dialog-order-off-title dialog-order-on-title">挂单</div>
+                <div class="dialog-order-on-content">
+                    <div class="dialog-order-on-eggs">
+                        <div class="dialog-order-on-egg" ng-repeat="item in eggs" ng-click="selectEgg(item)" ng-class="{'dialog-order-on-egg-selected': item==egg}">
+                        </div>
+                    </div>
+                    <div class="dialog-order-on-egg-name">
+                        <span ng-show="egg">{{egg.eggName}}，剩余{{egg.amount - egg.freeze}}个</span>
+                    </div>
+                    <div class="dialog-order-on-order-number">
+                        <span class="label">挂单数量:</span><input class="input" type="number" ng-model="eggNumber" ng-change="setEggNumber(eggNumber)"><span class="unit">个</span>
+                    </div>
+                    <div class="dialog-order-on-order-number dialog-order-on-order-price">
+                        <span class="label">挂单单价:</span><input class="input" type="number" ng-model="eggPrice" ng-change="setEggPrice(eggPrice)"><span class="unit unit-coin"></span>
+                    </div>
+                    <div class="dialog-order-on-order-number dialog-order-on-order-price">
+                        <span class="label">挂单总价:</span><span class="input input-coin">{{eggNumber*eggPrice > 0 ? eggNumber*eggPrice : 0}}</span><span class="unit unit-coin"></span>
+                    </div>
+                </div>
+                <div class="dialog-order-on-footer">
+                    <div class="button-on button-on2" ng-class="{'gray': disableOn() }" ng-click="doOrderOn()">确定</div>
+                    <div class="button-on button-on2 gray" ng-click="closeShowOn()">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-class="{'hide': !showSuccess}" ng-if="showSuccess">
+        <mask class="mask" style="z-index: 34;"></mask>
+        <div class="dialog" style="z-index: 35;">
+            <img class="dialog-close" src="img/dialog_close.png" style="z-index: 36;" ng-click="closeSuccess()">
+            <div>
+                <div class="dialog-buy-success">
+                    {{message}}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="application/javascript">
+    var app = angular.module('myApp', []);
+    addHttpInterceptor(app);
+    app.controller('myCtrl', function($scope, $http) {
+        // 当前页数
+        $scope.page = -1;
+        // 总页数
+        $scope.totalPages = 1;
+        // 防止重复加载
+        $scope.busy = false;
+        // 存放数据
+        $scope.items = [];
+        // 请求数据方法
+        $scope.loadMore = function() {
+            if ($scope.busy) {
+                return false;
+            }
+            if ($scope.page < $scope.totalPages) {
+                $scope.page ++;
+                $scope.busy = true;
+                $http.post("/order/openOrders/" + currentAccount(), {
+                    page: $scope.page,
+                    size: 10
+                }).then(function (response) {
+                    if (response.data && response.data.content) {
+                        response.data.content.map(function (item) {
+                            $scope.items.push(item);
+                        })
+                        $scope.totalPages = response.data.totalPages;
+                    }
+                    if (!$scope.active) {
+                        $scope.active = $scope.items[0];
+                    }
+                    $scope.busy = false;
+                }, function () {
+                    $scope.busy = false;
+                })
+            }
+        };
+        $scope.showBody = true;
+        $scope.select = function (item) {
+            $scope.active = item;
+        }
+        $scope.orderOff = function () {
+            if ($scope.active) {
+                $scope.showOff = true;
+            }
+        }
+        $scope.closeShowOff = function () {
+            $scope.showOff = false;
+        }
+        $scope.doOrderOff = function () {
+            if ($scope.busy) return;
+            $scope.busy = true;
+            $http.post("/order/" + $scope.active.id + "/submitCancel").then(function () {
+                $scope.busy = false;
+                $scope.message = "下架成功";
+                $scope.success();
+            }, function () {
+                $scope.busy = false;
+            })
+        }
+        $scope.orderOn = function () {
+            $http.post("/user/userEggs", {
+                accountID: currentAccount()
+            }).then(function (response) {
+                $scope.eggs = response.data;
+                if ($scope.eggs && $scope.eggs.length > 0) {
+                    $scope.showOn = true;
+                }
+            });
+        }
+        $scope.closeShowOn = function () {
+            $scope.showOn = false;
+        }
+        $scope.selectEgg = function (item) {
+            $scope.egg = item;
+        }
+        $scope.setEggNumber = function (number) {
+            $scope.eggNumber = parseInt(number);
+        }
+        $scope.setEggPrice = function (price) {
+            $scope.eggPrice = parseInt(price);
+        }
+        $scope.disableOn = function () {
+            return ! $scope.egg || ! $scope.eggNumber || $scope.eggNumber < 0 || ! $scope.eggPrice || $scope.eggPrice <= 0
+                || $scope.eggNumber > ( $scope.egg.amount - $scope.egg.freeze )
+        }
+        $scope.doOrderOn = function () {
+            if ($scope.disableOn() || $scope.busy) {
+                return;
+            }
+            $scope.busy = true;
+            $http.post("/order/place", {
+                accountID: currentAccount(),
+                amount: $scope.eggNumber,
+                feedId: $scope.egg.feedId,
+                price: $scope.eggPrice
+            }).then(function () {
+                $scope.busy = false;
+                $scope.message = "上架成功";
+                $scope.success();
+                delete $scope.eggNumber;
+                delete $scope.eggPrice;
+            })
+        }
+        $scope.success = function () {
+            $scope.showSuccess = true;
+        }
+        $scope.closeSuccess = function () {
+            $scope.showSuccess = false;
+            $scope.showOff = false;
+            $scope.showOn = false;
+            $scope.items = [];
+            delete $scope.active;
+            // 当前页数
+            $scope.page = -1;
+            // 总页数
+            $scope.totalPages = 1;
+            $scope.loadMore();
+        }
+    });
+</script>
+</html>

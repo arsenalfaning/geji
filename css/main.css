@@ -37,3 +37,42 @@
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
 }
+.button-on {
+    padding: 0 0.25rem;
+    height: 0.36rem;
+    line-height: 0.36rem;
+    background-size: 100% 100%;
+    position: relative;
+    border-radius: 0.03rem;
+    background-color: rgb(224, 72,47);
+    border: 0.03rem solid rgb(183, 57,36);
+    font-size: 0.24rem;
+    font-weight: bolder;
+    color: #fffd32;
+    -webkit-text-stroke: 0.012rem rgb(178, 55, 34);
+}
+.button-off {
+    padding: 0 0.25rem;
+    height: 0.36rem;
+    line-height: 0.36rem;
+    background-size: 100% 100%;
+    position: relative;
+    border-radius: 0.03rem;
+    background-color: #878787;
+    border: 0.03rem solid #6d6d6d;
+    font-size: 0.24rem;
+    font-weight: bolder;
+    color: #e9e9e9;
+    -webkit-text-stroke: 0.012rem #535353;
+}
+.dialog-buy-success {
+    background-image: url("../img/shop_success_bg.png");
+    background-size: 100% 100%;
+    width: 100%;
+    height: 1.95rem;
+    line-height: 1.96rem;
+    color: #fffd00;
+    font-weight: bolder;
+    font-size: 0.46rem;
+    -webkit-text-stroke: 0.02rem #7a5110;
+}

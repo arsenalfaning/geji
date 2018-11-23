@@ -79,11 +79,13 @@
             justify-content: space-between;
         }
         .auction-tbody {
-            height: 4.56rem;
+            height: 5.16rem;
             background-image: url("img/auction_bg2.png");
             background-size: 100% 100%;
+        }
+        .auction-tbody-content {
+            height: 4.6rem;
             overflow-y: auto;
-            padding-bottom: 0.6rem;
         }
         .auction-th1,.auction-td1 {
             width: 27%;
@@ -171,20 +173,22 @@
             <div class="auction-th4">总价</div>
         </div>
         <div class="auction-tbody"  when-scrolled="loadMore()">
-            <div class="auction-body" ng-repeat="item in items" ng-class="{'auction-body-active': item.id == active}" ng-click="select(item.id)">
-                <div class="auction-td1">{{item.userName}}</div>
-                <div class="auction-td2">
-                    <div class="auction-td2-content">
-                        <img class="auction-body-x" src="img/x.png">
-                        <span>{{item.amount - item.volume}}</span>
-                        <div class="auction-body-egg-name">{{item.eggName}}</div>
+            <div class="auction-tbody-content" when-scrolled="loadMore()">
+                <div class="auction-body" ng-repeat="item in items" ng-class="{'auction-body-active': item.id == active}" ng-click="select(item.id)">
+                    <div class="auction-td1">{{item.userName}}</div>
+                    <div class="auction-td2">
+                        <div class="auction-td2-content">
+                            <img class="auction-body-x" src="img/x.png">
+                            <span>{{item.amount - item.volume}}</span>
+                            <div class="auction-body-egg-name">{{item.eggName}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="auction-td3">
-                    <span>{{item.price}}</span>
-                </div>
-                <div class="auction-td4">
-                    <span>{{item.price * (item.amount - item.volume)}}</span>
+                    <div class="auction-td3">
+                        <span>{{item.price}}</span>
+                    </div>
+                    <div class="auction-td4">
+                        <span>{{item.price * (item.amount - item.volume)}}</span>
+                    </div>
                 </div>
             </div>
         </div>
