@@ -154,6 +154,19 @@
             font-size: 0.0108rem;
             text-shadow: 0 1px #56320F, 1px 0 #56320F, -1px 0 #56320F, 0 -1px #56320F;
         }
+        .auction-footer {
+            display: flex;
+            justify-content: center;
+            padding-top: 0.035rem;
+        }
+        .auction-footer-button {
+            width: 1.08rem;
+            height: 0.5rem;
+            line-height: 0.5rem;
+            background-size: 100% 100%;
+            font-size: 0.22rem;
+            background-image: url("img/auction_btn_bg.png");
+        }
     </style>
     <script src="js/angular.js"></script>
 </head>
@@ -190,6 +203,9 @@
                         <span>{{item.price * (item.amount - item.volume)}}</span>
                     </div>
                 </div>
+            </div>
+            <div class="auction-footer">
+                <div class="auction-footer-button" ng-click="toMyOrders()">我的挂单</div>
             </div>
         </div>
     </div>
@@ -235,6 +251,9 @@
         $scope.showBody = true;
         $scope.select = function (id) {
             $scope.active = id;
+        }
+        $scope.toMyOrders = function () {
+            window.location.href = "auction-my-orders.html" + window.location.search;
         }
     });
 </script>
